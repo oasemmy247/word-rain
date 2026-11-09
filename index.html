@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Word Rain — a fast, fun typing game. Type the falling words before they hit the ground.">
+  <title>Word Rain — a typing game</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌧️</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game" id="game">
+
+    <!-- Background scene (drawn by scenes.js) and rain -->
+    <div class="scene" id="scene" aria-hidden="true"></div>
+    <div class="freeze-tint" aria-hidden="true"></div>
+    <div class="rain" id="rain" aria-hidden="true"></div>
+
+    <!-- Top bar -->
+    <header class="hud">
+      <div class="stats">
+        <div class="stat"><span class="label">Score</span><span class="value" id="score">0</span></div>
+        <div class="stat"><span class="label">Combo</span><span class="value" id="combo">0<small id="mult">x1</small></span></div>
+        <div class="stat"><span class="label">Level</span><span class="value" id="level">1</span></div>
+        <div class="stat"><span class="label">Lives</span><span class="value lives" id="lives">❤❤❤</span></div>
+        <div class="stat"><span class="label">Best</span><span class="value" id="best">0</span></div>
+      </div>
+      <div class="controls">
+        <button class="icon-btn" id="pauseBtn" title="Pause (Esc)" aria-label="Pause">⏸</button>
+        <button class="icon-btn" id="muteBtn" title="Sound on/off" aria-label="Sound on/off">🔊</button>
+      </div>
+    </header>
+
+    <!-- Where the words fall -->
+    <section class="sky" id="sky"></section>
+
+    <!-- Ground + typing box -->
+    <footer class="ground">
+      <input id="typing" type="text" placeholder="Type the falling words…"
+             autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" disabled>
+    </footer>
+
+    <!-- Pop-up messages like "Level 2" -->
+    <div class="toast" id="toast"></div>
+    <div class="flash" id="flash"></div>
+
+    <!-- ===== Loading screen ===== -->
+    <div class="overlay loader" id="loader">
+      <div class="loader-inner">
+        <button class="gate" id="gate">
+          Tap to begin
+          <small>best with sound on</small>
+        </button>
+        <div class="hidden" id="loadBits">
+          <h1 class="logo big" id="loaderLogo" aria-label="Word Rain"></h1>
+          <p class="tagline">a typing game</p>
+          <div class="bar"><div class="fill" id="loadFill"></div></div>
+          <p class="load-text"><span id="loadText">Gathering clouds…</span> <span id="loadPct">0%</span></p>
+          <p class="press hidden" id="pressKey">Press any key or tap to play</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Start screen ===== -->
+    <div class="overlay hidden" id="startScreen">
+      <div class="card">
+        <h1 class="logo" id="menuLogo" aria-label="Word Rain"></h1>
+        <p class="sub">Type the falling words before they hit the ground.</p>
+
+        <div class="section-label">Difficulty</div>
+        <div class="chips" id="difficulty">
+          <button class="chip" data-diff="easy">Easy</button>
+          <button class="chip" data-diff="normal">Normal</button>
+          <button class="chip" data-diff="hard">Hard</button>
+        </div>
+        <p class="diff-info" id="diffInfo"></p>
+
+        <div class="section-label">Scene</div>
+        <div class="chips" id="themes"></div>
+        <div class="spacer"></div>
+
+        <div class="section-label">Power-ups: type them to use them</div>
+        <ul class="legend">
+          <li><span class="pill pu-bomb">💣 boom</span> clears every word on screen</li>
+          <li><span class="pill pu-freeze">❄️ ice</span> slows time for 5 seconds</li>
+          <li><span class="pill pu-heart">❤️ love</span> gives you an extra life</li>
+        </ul>
+        <p class="tip">Clear words in a row to build a <b>combo</b>. Every 5 in a row multiplies your points, up to <b>x5</b>.</p>
+
+        <button class="btn" id="startBtn">Start game</button>
+        <p class="hint"><kbd>Enter</kbd> start · <kbd>Esc</kbd> pause</p>
+      </div>
+    </div>
+
+    <!-- ===== Pause screen ===== -->
+    <div class="overlay hidden" id="pauseScreen">
+      <div class="card small">
+        <h2>Paused</h2>
+        <button class="btn" id="resumeBtn">Resume</button>
+        <button class="btn ghost" id="quitBtn">Quit to menu</button>
+        <p class="hint"><kbd>Esc</kbd> to resume</p>
+      </div>
+    </div>
+
+    <!-- ===== Game over screen ===== -->
+    <div class="overlay hidden" id="overScreen">
+      <div class="card">
+        <h2>Game over</h2>
+        <p class="final-score" id="finalScore">0</p>
+        <p class="new-best hidden" id="newBest">🎉 New best score!</p>
+
+        <div class="results">
+          <div><span id="rWords">0</span><label>Words</label></div>
+          <div><span id="rAcc">100%</span><label>Accuracy</label></div>
+          <div><span id="rWpm">0</span><label>WPM</label></div>
+          <div><span id="rCombo">0</span><label>Best combo</label></div>
+          <div><span id="rLevel">1</span><label>Level</label></div>
+          <div><span id="rDiff">Normal</span><label>Difficulty</label></div>
+        </div>
+
+        <button class="btn" id="restartBtn">Play again</button>
+        <button class="btn ghost" id="menuBtn">Change difficulty</button>
+        <p class="hint"><kbd>Enter</kbd> play again</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="scenes.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
