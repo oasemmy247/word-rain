@@ -2,7 +2,7 @@
 
 A fast, fun typing game. Words fall from the sky, and you type each one before it hits the ground.
 
-**▶ Play it here:** https://YOUR-USERNAME.github.io/word-rain/
+**▶ Play it here:** https://oasemmy247.github.io/word-rain/
 
 ## How to play
 
